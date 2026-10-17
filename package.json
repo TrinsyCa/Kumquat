@@ -1,0 +1,214 @@
+{
+  "name": "kumquat",
+  "productName": "Kumquat",
+  "version": "1.0.0",
+  "description": "Drag. Hold. Transform. A free, offline file converter with a radial drop wheel for Windows and Linux.",
+  "author": {
+    "name": "TrinsyCa",
+    "email": "omer@trinsyca.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/TrinsyCa/kumquat",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TrinsyCa/kumquat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TrinsyCa/kumquat/issues"
+  },
+  "keywords": [
+    "file-converter",
+    "electron",
+    "ffmpeg",
+    "pdf",
+    "image-converter",
+    "video-converter",
+    "offline",
+    "windows",
+    "linux",
+    "tangerine"
+  ],
+  "type": "module",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node test/smoke.mjs",
+    "test:electron": "electron test/electron-smoke.mjs",
+    "icons": "node scripts/build-icons.mjs",
+    "assets": "node scripts/build-assets.mjs",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win",
+    "dist:linux": "electron-builder --linux"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^1.0.11",
+    "@turbodocx/html-to-docx": "^1.23.1",
+    "adm-zip": "^0.6.1",
+    "archiver": "^8.0.0",
+    "epub-gen-memory": "^1.1.2",
+    "ffmpeg-static": "^5.3.0",
+    "heic-convert": "^2.1.0",
+    "mammoth": "^1.13.0",
+    "marked": "^18.1.1",
+    "node-unrar-js": "^2.0.2",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^6.4.299",
+    "pptxgenjs": "^4.0.1",
+    "qrcode": "^1.5.4",
+    "sharp": "^0.35.5",
+    "tar": "^7.5.22",
+    "turndown": "^7.2.4",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  },
+  "devDependencies": {
+    "electron": "^44.9.0",
+    "electron-builder": "^26.15.3",
+    "lucide-static": "^1.59.0"
+  },
+  "build": {
+    "appId": "com.trinsyca.kumquat",
+    "productName": "Kumquat",
+    "copyright": "Copyright © 2026 TrinsyCa",
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "package.json",
+      "LICENSE",
+      "!**/*.map",
+      "!**/*.d.ts",
+      "!**/*.d.mts",
+      "!**/*.ts",
+      "!**/{test,tests,__tests__,docs,example,examples}/**",
+      "!node_modules/@img/*musl*/**",
+      "!node_modules/@napi-rs/canvas-*musl*/**",
+      "!node_modules/pdfjs-dist/{build,web,types,image_decoders,iccs}/**",
+      "!node_modules/pdfjs-dist/legacy/{web,image_decoders}/**",
+      "!node_modules/pdfjs-dist/legacy/build/*.min.mjs",
+      "!node_modules/pdfjs-dist/legacy/build/pdf.sandbox*",
+      "!node_modules/pdf-lib/{es,dist,src}/**"
+    ],
+    "asarUnpack": [
+      "node_modules/ffmpeg-static/**",
+      "node_modules/sharp/**",
+      "node_modules/@img/**",
+      "node_modules/@napi-rs/**",
+      "node_modules/pdfjs-dist/standard_fonts/**",
+      "node_modules/pdfjs-dist/cmaps/**",
+      "node_modules/pdfjs-dist/wasm/**"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico",
+      "artifactName": "${productName}-${version}-${os}-${arch}-${target}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Kumquat",
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-portable.${ext}"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "tar.gz",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icons",
+      "category": "Utility",
+      "synopsis": "Drag. Hold. Transform.",
+      "maintainer": "TrinsyCa <omer@trinsyca.com>",
+      "artifactName": "${productName}-${version}-${arch}.${ext}",
+      "mimeTypes": [
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+        "image/heic",
+        "image/tiff",
+        "image/avif",
+        "image/gif",
+        "image/bmp",
+        "image/svg+xml",
+        "video/mp4",
+        "video/quicktime",
+        "video/x-matroska",
+        "video/webm",
+        "video/x-msvideo",
+        "audio/mpeg",
+        "audio/mp4",
+        "audio/x-wav",
+        "audio/flac",
+        "audio/ogg",
+        "application/pdf",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "text/markdown",
+        "text/plain",
+        "application/epub+zip",
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "text/csv",
+        "application/zip",
+        "application/x-tar",
+        "application/vnd.rar"
+      ],
+      "desktop": {
+        "entry": {
+          "Name": "Kumquat",
+          "Comment": "Convert, compress and share files",
+          "Keywords": "convert;compress;pdf;image;video;audio;"
+        }
+      },
+      "syncDesktopName": true
+    },
+    "deb": {
+      "depends": [
+        "libnotify4",
+        "libxtst6",
+        "libnss3"
+      ]
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "TrinsyCa",
+      "repo": "kumquat"
+    }
+  },
+  "desktopName": "kumquat.desktop"
+}

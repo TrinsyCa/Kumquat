@@ -1,0 +1,21 @@
+const api = window.kumquat;
+const { strings: S } = await api.init();
+const files = JSON.parse(new URLSearchParams(location.search).get('files') || '[]');
+const info = await api.floatInfo(files);
+const first = info[0];
+const img = document.createElement('img');
+img.src = first.image ? new URL(`file:///${first.path.replace(/\\/g, '/').replace(/^\/+/, '')}`).href : first.icon ?? '';
+img.onerror = () => { if (first.icon) img.src = first.icon; };
+const thumb = document.getElementById('thumb');
+thumb.append(img);
+if (files.length > 1) thumb.insertAdjacentHTML('beforeend', `<span class="badge">${files.length}</span>`);
+document.getElementById('name').textContent = files.length > 1 ? `${first.name} +${files.length - 1}` : first.name;
+document.getElementById('hint').textContent = S.floatHint;
+document.title = first.name;
+thumb.addEventListener('dragstart', (e) => {
+  e.preventDefault();
+  api.startDrag(files);
+});
+thumb.addEventListener('dblclick', () => api.open(files[0]));
+document.getElementById('close').addEventListener('click', () => api.closeWindow());
+addEventListener('keydown', (e) => e.key === 'Escape' && api.closeWindow());

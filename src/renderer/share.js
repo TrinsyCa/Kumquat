@@ -1,0 +1,12 @@
+const api = window.kumquat;
+const { strings: S } = await api.init();
+const info = await api.shareInfo();
+document.getElementById('title').textContent = S.shareTitle;
+document.getElementById('hint').textContent = S.shareHint;
+document.getElementById('stop').textContent = S.shareStop;
+document.getElementById('qr').src = info.qr;
+document.getElementById('url').textContent = info.url;
+let downloads = 0;
+api.onShareDownload(() => (document.getElementById('count').textContent = S.shareDownloads.replace('{n}', ++downloads)));
+document.getElementById('stop').addEventListener('click', () => api.closeWindow());
+addEventListener('keydown', (e) => e.key === 'Escape' && api.closeWindow());

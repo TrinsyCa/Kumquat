@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: file:; style-src 'self' 'unsafe-inline'">
+  <title>Kumquat</title>
+  <link rel="stylesheet" href="orb.css">
+</head>
+<body class="collapsed">
+  <div id="orb" title="Kumquat">
+    <div class="fruit"><div class="shine"></div><div class="leaf"></div></div>
+    <div class="ring"></div>
+  </div>
+
+  <div id="wheel" aria-live="polite">
+    <svg id="wedges" viewBox="0 0 600 600" width="600" height="600"></svg>
+    <div id="labels"></div>
+    <div id="center">
+      <div id="tabs"></div>
+      <div id="title"></div>
+      <div id="subtitle"></div>
+      <div id="hint"></div>
+    </div>
+    <div id="panel" hidden></div>
+  </div>
+
+  <script type="module" src="orb.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: file:; style-src 'self' 'unsafe-inline'">
+  <title>Kumquat</title>
+  <style>
+    :root { font-family: "Segoe UI Variable", "Segoe UI", "Inter", "Noto Sans", "Ubuntu", system-ui, sans-serif; color-scheme: dark; }
+    html, body { margin: 0; height: 100%; background: transparent; color: #fff4ea; user-select: none; overflow: hidden; }
+    .card { position: absolute; inset: 8px; border-radius: 20px; background: rgba(28, 20, 15, .95);
+      border: 1px solid rgba(255, 138, 31, .35); box-shadow: 0 10px 28px rgba(0,0,0,.5);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 14px; }
+    .bar { position: absolute; top: 0; left: 0; right: 0; height: 26px; -webkit-app-region: drag; }
+    .close { position: absolute; top: 6px; right: 8px; width: 22px; height: 22px; border-radius: 50%; border: 0; cursor: pointer;
+      background: rgba(255,255,255,.08); color: #fff; font-size: 14px; line-height: 22px; -webkit-app-region: no-drag; opacity: 0; transition: opacity .15s; }
+    .card:hover .close { opacity: 1; }
+    .thumb { width: 116px; height: 104px; display: grid; place-items: center; cursor: grab; position: relative; }
+    .thumb img { max-width: 100%; max-height: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,.4); pointer-events: none; }
+    .thumb .badge { position: absolute; right: -6px; top: -6px; background: #ff8a1f; color: #1b120c; font-weight: 700; font-size: 12px;
+      min-width: 22px; height: 22px; border-radius: 11px; display: grid; place-items: center; padding: 0 6px; }
+    .name { font-size: 12px; text-align: center; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .hint { font-size: 10.5px; color: rgba(255,244,234,.55); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="bar"></div>
+    <button class="close" id="close" title="×">×</button>
+    <div class="thumb" id="thumb" draggable="true"></div>
+    <div class="name" id="name"></div>
+    <div class="hint" id="hint"></div>
+  </div>
+  <script type="module" src="float.js"></script>
+</body>
+</html>
