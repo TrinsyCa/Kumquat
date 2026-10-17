@@ -31,8 +31,9 @@ export function getSettings() {
   return current;
 }
 
-export function updateSettings(patch) {
+export function updateSettings(patch, { persist = true } = {}) {
   current = { ...getSettings(), ...patch };
+  if (!persist) return current;
   fs.mkdirSync(path.dirname(file()), { recursive: true });
   fs.writeFileSync(file(), JSON.stringify(current, null, 2));
   return current;

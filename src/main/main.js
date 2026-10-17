@@ -311,7 +311,8 @@ function registerIpc() {
       const center = { x: dragOrigin.center.x + x - dragOrigin.pointer.x, y: dragOrigin.center.y + y - dragOrigin.pointer.y };
       orb.setBounds(boundsAround(center, ORB));
       const b = orb.getBounds();
-      updateSettings({ orb: { x: b.x + ORB / 2, y: b.y + ORB / 2 } });
+      // Keep the position in memory while moving and write it to disk once the drag ends.
+      updateSettings({ orb: { x: b.x + ORB / 2, y: b.y + ORB / 2 } }, { persist: phase === 'end' });
       if (phase === 'end') dragOrigin = null;
     }
   });
