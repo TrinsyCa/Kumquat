@@ -85,7 +85,7 @@ You don't even need the orb. While dragging files in File Explorer or on the des
 
 Grab the latest build from [Releases](https://github.com/TrinsyCa/kumquat/releases/latest):
 
-- **Windows 10/11 (x64):** `Kumquat-Setup-x.y.z.exe` (installer) or `Kumquat-x.y.z-portable.exe`
+- **Windows 10/11 (x64):** `Kumquat-Setup-x.y.z.exe` (installer, recommended) or `Kumquat-x.y.z-win-x64.zip` (no install: unzip anywhere and run `Kumquat.exe`)
 - **Linux (x64):** `Kumquat-x.y.z-x86_64.AppImage`, `.deb` (Debian/Ubuntu) or `.tar.gz`
 
 > Builds are not code-signed yet, so Windows SmartScreen may warn on first launch (*More info → Run anyway*).

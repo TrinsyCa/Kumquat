@@ -45,6 +45,7 @@ jobs:
           name: kumquat-${{ runner.os }}
           path: |
             dist/*.exe
+            dist/*-win-*.zip
             dist/*.AppImage
             dist/*.deb
             dist/*.tar.gz

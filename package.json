@@ -92,8 +92,7 @@
       "!node_modules/pdfjs-dist/legacy/build/*.min.mjs",
       "!node_modules/pdfjs-dist/legacy/build/pdf.sandbox*",
       "!node_modules/pdf-lib/{es,dist,src}/**",
-      "!node_modules/uiohook-napi/prebuilds/{darwin-*,linux-arm64,linux-loong64,win32-arm64}/**",
-      "!node_modules/koffi/{src,vendor,doc}/**"
+      "!node_modules/uiohook-napi/prebuilds/{darwin-*,linux-arm64,linux-loong64,win32-arm64}/**"
     ],
     "asarUnpack": [
       "node_modules/ffmpeg-static/**",
@@ -116,14 +115,14 @@
           ]
         },
         {
-          "target": "portable",
+          "target": "zip",
           "arch": [
             "x64"
           ]
         }
       ],
       "icon": "assets/icon.ico",
-      "artifactName": "${productName}-${version}-${os}-${arch}-${target}.${ext}"
+      "artifactName": "${productName}-${version}-win-${arch}.${ext}"
     },
     "nsis": {
       "oneClick": false,
@@ -133,9 +132,6 @@
       "createStartMenuShortcut": true,
       "shortcutName": "Kumquat",
       "artifactName": "${productName}-Setup-${version}.${ext}"
-    },
-    "portable": {
-      "artifactName": "${productName}-${version}-portable.${ext}"
     },
     "linux": {
       "target": [
