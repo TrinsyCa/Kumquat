@@ -8,6 +8,7 @@ import { getSettings, updateSettings, resolveLocale, outputDirFor } from './sett
 import { copyFilesToClipboard, openTerminal, moveFile, copyFile, setSendTo, setLaunchAtLogin, htmlToPdf, filesFromArgv } from './platform.js';
 import { startShare } from './share.js';
 import { MIME_EXT } from './mime.js';
+import { startDragWatch } from './dragwatch.js';
 
 const ROOT = path.join(import.meta.dirname, '..', '..');
 const RENDERER = path.join(ROOT, 'src', 'renderer');
@@ -20,6 +21,7 @@ let tray = null;
 let settingsWin = null;
 let expanded = false;
 let dragOrigin = null;
+let stopDragWatch = null;
 const running = new Map();
 const shares = new Map();
 
@@ -104,6 +106,28 @@ function collapseOrb() {
   expanded = false;
   orb.setBounds(boundsAround(orbCenter(), ORB));
   if (!getSettings().showOrb) orb.hide();
+}
+
+/** Opens the (still invisible) wheel under the cursor while a file drag is in progress elsewhere. */
+function armWheelAtCursor() {
+  // Leave a wheel that is already open (picking, running, showing a result) alone.
+  if (!orb || expanded || orb.webContents.isLoading()) return;
+  expanded = true;
+  orb.setBounds(boundsAround(screen.getCursorScreenPoint(), WHEEL));
+  orb.showInactive();
+  orb.moveTop();
+  orb.webContents.send('wheel:arm');
+}
+
+function updateDragWatch() {
+  stopDragWatch?.();
+  stopDragWatch = null;
+  if (!getSettings().dragWheel) return;
+  stopDragWatch = startDragWatch({
+    getKeys: () => getSettings().keys,
+    onArm: armWheelAtCursor,
+    onRelease: () => orb?.webContents.send('wheel:release'),
+  });
 }
 
 function showOrb() {
@@ -362,6 +386,7 @@ function registerIpc() {
     if ('launchAtLogin' in patch) setLaunchAtLogin(next.launchAtLogin);
     if ('sendTo' in patch) setSendTo(next.sendTo);
     if ('shortcut' in patch) registerShortcut();
+    if ('dragWheel' in patch) updateDragWatch();
     // The orb caches settings and strings, so reload it (it's collapsed while the settings window is used).
     if ('keys' in patch || 'defaultWheel' in patch || ('language' in patch && patch.language !== before.language)) {
       if (expanded) collapseOrb();
@@ -403,6 +428,7 @@ function start() {
   createOrb();
   createTray();
   registerShortcut();
+  updateDragWatch();
   const s = getSettings();
   if (!fs.existsSync(path.join(app.getPath('userData'), 'settings.json'))) {
     // First run: install integrations with their defaults.
@@ -414,4 +440,7 @@ function start() {
 }
 
 app.on('window-all-closed', (e) => e.preventDefault?.());
-app.on('will-quit', () => globalShortcut.unregisterAll());
+app.on('will-quit', () => {
+  globalShortcut.unregisterAll();
+  stopDragWatch?.();
+});

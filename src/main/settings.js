@@ -13,6 +13,7 @@ export const DEFAULTS = {
   orb: null, // { x, y } centre of the orb in screen coordinates
   launchAtLogin: false,
   sendTo: true,
+  dragWheel: true, // Windows: open the wheel when a wheel key is pressed while dragging in Explorer
   shortcut: 'CommandOrControl+Alt+K',
 };
 

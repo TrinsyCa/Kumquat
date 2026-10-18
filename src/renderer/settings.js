@@ -25,6 +25,7 @@ function render() {
   $('showOrb').checked = settings.showOrb;
   $('launchAtLogin').checked = settings.launchAtLogin;
   $('sendTo').checked = settings.sendTo;
+  $('dragWheel').checked = settings.dragWheel;
   $('shortcut').value = settings.shortcut ?? '';
   $('defaultWheel').value = settings.defaultWheel;
   $('output').value = settings.output;
@@ -41,7 +42,7 @@ $('language').addEventListener('change', async (e) => {
   await save({ language: e.target.value });
   location.reload();
 });
-for (const id of ['showOrb', 'launchAtLogin', 'sendTo']) $(id).addEventListener('change', (e) => save({ [id]: e.target.checked }));
+for (const id of ['showOrb', 'launchAtLogin', 'sendTo', 'dragWheel']) $(id).addEventListener('change', (e) => save({ [id]: e.target.checked }));
 for (const id of ['defaultWheel', 'afterDone']) $(id).addEventListener('change', (e) => save({ [id]: e.target.value }));
 $('shortcut').addEventListener('change', (e) => save({ shortcut: e.target.value.trim() }));
 $('output').addEventListener('change', async (e) => {

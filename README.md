@@ -46,6 +46,10 @@ Kumquat is inspired by [Tangerine for Mac](https://tangerineformac.com) and brin
 
 Keys can be changed in Settings. You can also hover the three buttons in the centre of the wheel while dragging.
 
+### Anywhere in File Explorer and on the desktop (Windows)
+
+You don't even need the orb. While dragging files in File Explorer or on the desktop, press `Shift`, `Ctrl` or `Alt` and the wheel opens **right under your cursor**, replacing Windows' own move / copy / create-shortcut behaviour for those keys. Drop on an option, or drop in the middle and pick with the mouse or keyboard. Right-click drags and open context menus are left alone, and the feature can be turned off in Settings.
+
 **Without dragging:** right-click a file → *Send to → Kumquat* (Windows), *Open with → Kumquat* (Linux), press `Ctrl+Alt+K`, or click the orb → *Open files…*. Then use the keyboard: `←/→` choose, `Tab` switch wheel, `Enter` apply, `Esc` close.
 
 ## Supported formats
@@ -135,6 +139,7 @@ FFmpeg binaries are distributed under the GPL/LGPL by their respective authors; 
 - Masaüstündeki küçük **kumkat küresine** dosyaları sürükle.
 - Sürüklerken bir tuşa basılı tut: tuşsuz veya `Shift` → **Dönüştür**, `Ctrl` → **Araçlar**, `Alt` → **Eylemler**.
 - Dosyaları tekerlekteki seçeneğin üzerine bırak. Bu kadar.
+- **Windows'ta küreye bile gerek yok:** Dosya Gezgini'nde veya masaüstünde dosya sürüklerken `Shift`, `Ctrl` veya `Alt`'a bas; Windows'un taşı/kopyala/kısayol davranışı yerine tekerlek doğrudan imlecin altında açılır. (Sağ tıkla sürükleme ve açık bağlam menüleri etkilenmez; Ayarlar'dan kapatılabilir.)
 
 **385 dönüşüm yolu**, **31 araç** (sıkıştır, boyutlandır, kırp, böl, birleştir, filigran…) ve **8 eylem** (QR kodla telefona gönder, yüzdür, kopyala, taşı, terminalde aç…). Dosyaların asla bilgisayarından çıkmaz.
 

@@ -8,7 +8,7 @@ const C = SIZE / 2;
 
 let S = {}; // strings
 let settings = {};
-let state = 'idle'; // idle | dragging | picking | params | running | done | error
+let state = 'idle'; // idle | armed | dragging | dropping | picking | params | running | done | error
 let mode = 'convert';
 let manualMode = null; // mode chosen with a tab during a drag
 let options = null; // { convert, tools, actions }
@@ -192,7 +192,7 @@ function collapse() {
   $('panel').hidden = true;
   $('wheel').classList.remove('dim');
   document.body.classList.add('collapsed');
-  document.body.classList.remove('drag-hover');
+  document.body.classList.remove('drag-hover', 'armed');
   api.collapse();
 }
 
@@ -214,8 +214,9 @@ document.addEventListener('dragenter', async (e) => {
   e.preventDefault();
   clearTimeout(leaveTimer);
   if (state === 'dragging') return trackDrag(e);
-  if (state !== 'idle' && state !== 'picking') return;
+  if (state !== 'idle' && state !== 'picking' && state !== 'armed') return;
   state = 'dragging';
+  document.body.classList.remove('armed');
   mode = settings.defaultWheel;
   const items = [...e.dataTransfer.items].filter((i) => i.kind === 'file');
   fileCount = items.length;
@@ -233,7 +234,10 @@ document.addEventListener('dragenter', async (e) => {
 
 /** Picks the wheel from held modifier keys and highlights the wedge under the pointer. */
 function trackDrag(e) {
-  const wanted = modeFromModifiers(e) ?? manualMode ?? settings.defaultWheel;
+  // A wheel picked with a key stays picked after the key is released, until the drop.
+  const held = modeFromModifiers(e);
+  if (held) manualMode = held;
+  const wanted = manualMode ?? settings.defaultWheel;
   if (wanted !== mode) setMode(wanted);
   const i = hitTest(e.clientX, e.clientY);
   setHot(i >= 0 && !currentList()?.[i]?.needs ? i : -1);
@@ -266,6 +270,7 @@ document.addEventListener('drop', async (e) => {
   const dropped = [...e.dataTransfer.files].map((f) => api.pathFor(f)).filter(Boolean);
   if (!dropped.length) return collapse();
   trackDrag(e);
+  state = 'dropping';
   const index = hitTest(e.clientX, e.clientY);
   const guessed = index >= 0 ? currentList()?.[index] : null;
   files = dropped;
@@ -282,6 +287,24 @@ function startPicking() {
   render();
   window.focus();
 }
+
+// A wheel key was pressed while dragging files in Explorer / on the desktop: the main process has moved
+// this window under the cursor. Stay invisible until the drag actually enters (it may have been a
+// rubber-band selection), then show the wheel.
+api.onWheelArm(() => {
+  if (state !== 'idle') return;
+  state = 'armed';
+  optionsKey = '';
+  document.body.classList.remove('collapsed');
+  document.body.classList.add('armed');
+});
+
+// The mouse button was released somewhere else (drag cancelled or dropped outside the wheel).
+api.onWheelRelease(() => {
+  setTimeout(() => {
+    if (state === 'armed' || state === 'dragging') collapse();
+  }, 250);
+});
 
 // Files handed over from the command line, "Send to", "Open with" or the file picker.
 api.onWheelOpen((data) => {

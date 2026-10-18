@@ -15,6 +15,8 @@ contextBridge.exposeInMainWorld('kumquat', {
   cancel: () => ipcRenderer.send('op:cancel'),
   onProgress: (fn) => ipcRenderer.on('op:progress', (e, f) => fn(f)),
   onWheelOpen: (fn) => ipcRenderer.on('wheel:open', (e, data) => fn(data)),
+  onWheelArm: (fn) => ipcRenderer.on('wheel:arm', fn),
+  onWheelRelease: (fn) => ipcRenderer.on('wheel:release', fn),
 
   reveal: (p) => ipcRenderer.send('path:reveal', p),
   open: (p) => ipcRenderer.send('path:open', p),

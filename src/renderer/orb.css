@@ -51,6 +51,9 @@ body.drag-hover #orb .ring { border-color: var(--accent-2); animation: spin 6s l
 @keyframes spin { to { transform: rotate(360deg); } }
 
 body:not(.collapsed) #orb { display: none; }
+/* Armed: invisible, but a (barely) non-transparent surface so Windows routes the drag to this window. */
+body.armed { background: rgba(0, 0, 0, 0.004); }
+body.armed #wheel { visibility: hidden; }
 body.collapsed #wheel { display: none; }
 
 /* ------------------------------------------------------------ wheel */
